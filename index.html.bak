@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 90%;
+            margin: 0;
+        }
+        canvas {
+            background: #CCC;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+	
+    <a href='./graph/graph.html'>graph-1</a><br>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        // Get the widow width and height 
+        var W = window.innerWidth;
+	var H = window.innerHeight;
+
+	// Set the same to the canvas
+        canvas.width = W;
+	canvas.height = H; 
+        var count=0;
+        var fib=8;
+        var ofib=fib;
+        ctx.translate(W/2, H/2)
+        for (count=0; count < 16; count++){
+           ctx.strokeRect(0, 0, fib, fib);
+           ctx.translate(ofib, ofib);
+           ctx.rotate(Math.PI/2.12);
+           ofib=fib;
+           fib=fib+ofib;
+
+        }
+         
+
+            
+    </script>
+</body>
+</html>
