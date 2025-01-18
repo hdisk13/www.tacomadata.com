@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: #0e0425;
+        }
+        canvas {
+            display: block;
+        }
+        #controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        #controls label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .value-display {
+            margin-left: 10px;
+            font-family: monospace;
+        }
+
+        input[type="range"] {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <label>
+            Rotation Angle:
+            <span id="angle-value" class="value-display" style="display: inline-block; min-width: 4em; text-align: right;">85.8&deg;</span>
+            <input type="range" id="angle-slider" 
+                   min="0" max="180" step="0.1" value="85.8">
+        </label>
+        <label>
+            Translation Scale:
+            <span id="scale-value" class="value-display">100%</span>
+            <input type="range" id="scale-slider" 
+                   min="0" max="200" step="1" value="100">
+        </label>
+    </div>
+    
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const angleSlider = document.getElementById('angle-slider');
+        const scaleSlider = document.getElementById('scale-slider');
+        const angleValue = document.getElementById('angle-value');
+        const scaleValue = document.getElementById('scale-value');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.save();
+            ctx.translate(canvas.width/2, canvas.height/2);
+            
+            let fib = 8;
+            let prevFib = fib;
+            
+            // Create a gradient
+            let gradient = ctx.createLinearGradient(-canvas.width/2, -canvas.height/2, 
+                                                  canvas.width/2, canvas.height/2);
+            gradient.addColorStop(0, '#ff6b6b');
+            gradient.addColorStop(0.5, '#4ecdc4');
+            gradient.addColorStop(1, '#45b7d1');
+            
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 2;
+            
+            // Convert degrees to radians
+            const angleInRadians = (angleSlider.value * Math.PI) / 180;
+            const translationScale = scaleSlider.value / 100;
+            
+            for (let i = 0; i < 12; i++) {
+                ctx.beginPath();
+                ctx.rect(0, 0, fib, fib);
+                ctx.stroke();
+                
+                // Draw an arc in the corner of each square
+                ctx.beginPath();
+                ctx.arc(0, 0, fib, 0, Math.PI/2);
+                ctx.stroke();
+                
+                //ctx.translate(prevFib, prevFib);
+                //ctx.translate(fib, fib);
+                // Scale the translation by the slider value
+                const translation = fib * translationScale;
+                ctx.translate(translation, translation);
+                ctx.rotate(angleInRadians);
+                
+                // Calculate next Fibonacci number
+                let temp = fib;
+                fib = fib + prevFib;
+                prevFib = temp;
+            }
+            
+            ctx.restore();
+            
+            requestAnimationFrame(draw);
+        }
+
+        
+        angleSlider.addEventListener('input', (e) => {
+            angleValue.textContent = `${e.target.value}\u00B0`;
+        });
+
+        scaleSlider.addEventListener('input', (e) => {
+            scaleValue.textContent = `${e.target.value}%`;
+        });
+
+        // Initialize with your original "crooked" angle (approximately 85.8°)
+        draw();
+    </script>
+</body>
+</html>
