@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="refresh" content="5; url=http://www.tacomadata.com/graph/graph2.html">
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        canvas {
+            background: #CCC;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        // Get the widow width and height 
+        var W = window.innerWidth;
+	    var H = window.innerHeight;
+
+	    // Set the same to the canvas
+        canvas.width = W;
+	    canvas.height = H;
+        function degrees(deg) {
+            return deg * (Math.PI/180);
+        }
+
+ 
+        var sr=0.0;
+        var step=0.0; 
+        var radius=192;
+        var slices=64;
+        // width of first slice in radians
+        sr = ((2*Math.PI) / slices);
+        
+        for(step=0.0; step<(2*Math.PI); step=step + (2*sr)) {
+            ctx.beginPath();
+            ctx.moveTo(W/2, H/2);
+            ctx.arc(W/2, H/2, radius, step, step+sr,false);
+            ctx.lineTo( W/2, H/2 );
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#000000';
+            ctx.fillStyle='#404040'
+            ctx.fill();
+            ctx.stroke();
+        }
+        
+            
+    </script>
+</body>
+</html>
+
