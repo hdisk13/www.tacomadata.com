@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favorite Places in Tacoma</title>
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <link
+        rel="stylesheet"
+        href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css"
+    />
+    <style>
+        #myMap {
+            width: 100%;
+            height: 500px; /* adjust as needed */
+        }
+    </style>
+</head>
+<body>
+
+<div id="myMap"></div>
+
+<script>
+    let subscriptionKey = "YOUR_AZURE_MAPS_SUBSCRIPTION_KEY";
+
+    // Initialize the map
+    let map = new atlas.Map("myMap", {
+        center: [-122.4443, 47.2529], // longitude, latitude (Tacoma)
+        zoom: 12,
+        view: "Auto", // "Auto" will switch between 2D and 3D automatically
+        authOptions: {
+            authType: 'subscriptionKey',
+            subscriptionKey: subscriptionKey
+        }
+    });
+
+    // Once the map is ready, you can add data layers
+    map.events.add('ready', () => {
+        // Add your favorite places here
+        // For example, create a data source containing point features:
+        let dataSource = new atlas.source.DataSource();
+        map.sources.add(dataSource);
+
+        // Example place features:
+        let favoritePlaces = [
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [-122.435, 47.252]  // Some place in Tacoma
+                },
+                "properties": {
+                    "title": "Favorite Park"
+                }
+            },
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [-122.45, 47.255] // Another place
+                },
+                "properties": {
+                    "title": "Best Coffee Shop"
+                }
+            }
+        ];
+
+        dataSource.add(favoritePlaces);
+
+        // Create a symbol layer to render the points:
+        let symbolLayer = new atlas.layer.SymbolLayer(dataSource, null, {
+            iconOptions: {
+                image: 'pin-round-dark',
+                allowOverlap: true
+            },
+            textOptions: {
+                textField: ['get', 'title'],
+                offset: [0, 1.2]
+            }
+        });
+
+        map.layers.add(symbolLayer);
+    });
+</script>
+
+</body>
+</html>
+
