@@ -19,16 +19,13 @@
 <div id="myMap"></div>
 
 <script>
-    atlas.setDomain({
-        baseUrl: '/maps-api/'  // Set proxy URL at the SDK level
-    });
-    // Initialize the map
     let map = new atlas.Map("myMap", {
-        center: [-122.4443, 47.2529], // longitude, latitude (Tacoma)
+        center: [-122.4443, 47.2529],
         zoom: 12,
-        view: "Auto", // "Auto" will switch between 2D and 3D automatically
+        view: "Auto",
         authOptions: {
-            authType: 'anonymous'
+            authType: 'subscriptionKey',
+            subscriptionKey: '5UD2cBEDZuqQn9IeirYCaJPJ8mMSw5oqy1KX1LqfkgTg91Pbgs43JQQJ99BAAC8vTInpKC9lAAAgAZMPk0Rf'
         }
     });
 
