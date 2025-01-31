@@ -19,17 +19,15 @@
 <div id="myMap"></div>
 
 <script>
-    let subscriptionKey = "ARR19CTdtDlcOyydNRu75WeCj7WLCP68GzLm6oenuFCfnIS7TqAAJQQJ99BAAC8vTInpKC9lAAAgAZMP4CGv";
-
     // Initialize the map
     let map = new atlas.Map("myMap", {
         center: [-122.4443, 47.2529], // longitude, latitude (Tacoma)
         zoom: 12,
         view: "Auto", // "Auto" will switch between 2D and 3D automatically
         authOptions: {
-            authType: 'subscriptionKey',
-            subscriptionKey: subscriptionKey
-        }
+            authType: 'anonymous'
+        },
+        baseUrl: '/maps-api'
     });
 
     // Once the map is ready, you can add data layers
